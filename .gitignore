@@ -1,0 +1,6 @@
+Bin/
+Lib/
+Include/
+Scripts/
+database.db
+pyenv.cfg
