@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 import requests
 import sv_ttk
+import json
 
 class Application(tk.Tk):
     def __init__(self):
@@ -111,7 +112,7 @@ class Application(tk.Tk):
         }
         response = requests.post("http://localhost:5000/songs", json=data)
         if response.status_code == 201:
-            messagebox.showinfo("Success", "Song added successfully")
+            messagebox.showinfo("Success", response.json()["message"])
             self.fetch_and_display_songs()
 
     def edit_song(self):
@@ -137,8 +138,10 @@ class Application(tk.Tk):
         }
         response = requests.put(f"http://localhost:5000/songs/{song_id}", json=data)
         if response.status_code == 200:
-            messagebox.showinfo("Success", "Song updated successfully")
+            messagebox.showinfo("Success", response.json()["message"])
             self.fetch_and_display_songs()
+        else:
+            messagebox.showinfo("error", response.json()["message"])
 
     def delete_song(self):
         selected_item = self.tree_songs.selection()
@@ -150,8 +153,10 @@ class Application(tk.Tk):
         song_id = item["values"][0]
         response = requests.delete(f"http://localhost:5000/songs/{song_id}")
         if response.status_code == 200:
-            messagebox.showinfo("Success", "Song deleted successfully")
+            messagebox.showinfo("Success", response.json()["message"])
             self.fetch_and_display_songs()
+        else:
+            messagebox.showinfo("error", response.json()["message"])
 
     def add_artist(self):
         data = {
@@ -160,7 +165,7 @@ class Application(tk.Tk):
         }
         response = requests.post("http://localhost:5000/artists", json=data)
         if response.status_code == 201:
-            messagebox.showinfo("Success", "Artist added successfully")
+            messagebox.showinfo("Success", response.json()["message"])
             self.fetch_and_display_artists()
 
     def edit_artist(self):
@@ -177,8 +182,10 @@ class Application(tk.Tk):
         }
         response = requests.put(f"http://localhost:5000/artists/{artist_id}", json=data)
         if response.status_code == 200:
-            messagebox.showinfo("Success", "Artist updated successfully")
+            messagebox.showinfo("Success", response.json()["message"])
             self.fetch_and_display_artists()
+        else:
+            messagebox.showinfo("error", response.json()["message"])
 
     def delete_artist(self):
         selected_item = self.tree_artists.selection()
@@ -190,8 +197,10 @@ class Application(tk.Tk):
         artist_id = item["values"][0]
         response = requests.delete(f"http://localhost:5000/artists/{artist_id}")
         if response.status_code == 200:
-            messagebox.showinfo("Success", "Artist deleted successfully")
+            messagebox.showinfo("message", response.json()["message"])
             self.fetch_and_display_artists()
+        else:
+            messagebox.showinfo("error", response.json()["message"])
 
     def add_folder(self):
         data = {
@@ -202,7 +211,7 @@ class Application(tk.Tk):
         }
         response = requests.post("http://localhost:5000/folders", json=data)
         if response.status_code == 201:
-            messagebox.showinfo("Success", "Folder added successfully")
+            messagebox.showinfo("Success", response.json()["message"])
             self.fetch_and_display_folders()
 
     def edit_folder(self):
@@ -221,8 +230,10 @@ class Application(tk.Tk):
         }
         response = requests.put(f"http://localhost:5000/folders/{folder_id}", json=data)
         if response.status_code == 200:
-            messagebox.showinfo("Success", "Folder updated successfully")
+            messagebox.showinfo("Success", response.json()["message"])
             self.fetch_and_display_folders()
+        else:
+            messagebox.showinfo("error", response.json()["message"])
 
     def delete_folder(self):
         selected_item = self.tree_folders.selection()
@@ -234,8 +245,10 @@ class Application(tk.Tk):
         folder_id = item["values"][0]
         response = requests.delete(f"http://localhost:5000/folders/{folder_id}")
         if response.status_code == 200:
-            messagebox.showinfo("Success", "Folder deleted successfully")
+            messagebox.showinfo("Success", response.json()["message"])
             self.fetch_and_display_folders()
+        else:
+            messagebox.showinfo("error", response.json()["message"])
 
     def search_songs(self):
         self.create_search_window(

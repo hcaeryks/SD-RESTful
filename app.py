@@ -159,12 +159,13 @@ def delete_folder(number):
     count = cursor.fetchone()[0]
     if count > 0:
         conn.close()
-        return jsonify({"error": "Folder cannot be deleted as it has associated songs"}), 400
+        return jsonify({"message": "Folder cannot be deleted as it has associated songs"}), 400
     
     conn.execute("DELETE FROM folder WHERE number = ?", (number,))
     conn.commit()
     conn.close()
     return jsonify({"message": "Folder deleted successfully"}), 200
+
 
 @app.route('/artists/<int:id>', methods=['DELETE'])
 def delete_artist(id):
@@ -173,8 +174,7 @@ def delete_artist(id):
     count = cursor.fetchone()[0]
     if count > 0:
         conn.close()
-        return jsonify({"error": "Artist cannot be deleted as they have associated songs"}), 400
-    
+        return jsonify({"message": "Artist cannot be deleted as they have associated songs"}), 400
     conn.execute("DELETE FROM artist WHERE id = ?", (id,))
     conn.commit()
     conn.close()
@@ -187,7 +187,7 @@ def delete_song(id):
     count = cursor.fetchone()[0]
     if count == 0:
         conn.close()
-        return jsonify({"error": "Song not found"}), 404
+        return jsonify({"message": "Song not found"}), 404
     
     conn.execute("DELETE FROM song WHERE id = ?", (id,))
     conn.commit()
@@ -219,7 +219,7 @@ def update_folder(number):
         conn.close()
         return jsonify({"message": "Folder updated successfully"}), 200
     else:
-        return jsonify({"error": "No valid fields to update"}), 400
+        return jsonify({"message": "No valid fields to update"}), 400
 
 @app.route('/artists/<int:id>', methods=['PUT'])
 def update_artist(id):
@@ -243,7 +243,7 @@ def update_artist(id):
         conn.close()
         return jsonify({"message": "Artist updated successfully"}), 200
     else:
-        return jsonify({"error": "No valid fields to update"}), 400
+        return jsonify({"message": "No valid fields to update"}), 400
 
 @app.route('/songs/<int:id>', methods=['PUT'])
 def update_song(id):
@@ -294,7 +294,7 @@ def update_song(id):
         conn.close()
         return jsonify({"message": "Song updated successfully"}), 200
     else:
-        return jsonify({"error": "No valid fields to update"}), 400
+        return jsonify({"message": "No valid fields to update"}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
